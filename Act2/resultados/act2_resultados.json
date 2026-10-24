@@ -1,0 +1,30 @@
+{
+  "evacuacion": {
+    "inicio": "Aula",
+    "meta": "Salida",
+    "camino": [
+      "Aula",
+      "Laboratorio",
+      "Patio",
+      "Salida"
+    ],
+    "pasos": 3,
+    "nodos_expandidos": 6,
+    "estados": 7,
+    "aristas": 8
+  },
+  "reparto": {
+    "inicio": "Almacen",
+    "meta": "Clinica",
+    "camino": [
+      "Almacen",
+      "Centro",
+      "Mercado",
+      "Clinica"
+    ],
+    "costo": 8.0,
+    "nodos_expandidos": 5,
+    "estados": 5,
+    "aristas": 7
+  }
+}
