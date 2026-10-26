@@ -1,0 +1,4 @@
+*.pdf binary
+*.png binary
+*.jpeg binary
+Act5/dashboard.html -diff

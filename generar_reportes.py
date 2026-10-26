@@ -1,4 +1,4 @@
-"""Genera cuatro reportes PDF individuales a partir de resultados reproducibles."""
+"""Genera los seis reportes PDF del portafolio a partir de resultados reproducibles."""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,9 @@ from reportlab.platypus import (BaseDocTemplate, Frame, Image, PageBreak,
                                 PageTemplate, Paragraph, Preformatted, Spacer, Table, TableStyle)
 
 BASE = Path(__file__).resolve().parent
-ALUMNO = "Emmanuel Guzmán"
+ALUMNO = "Emmanuel Guzmán García"
+EQUIPO = ["Bryan Salvador Ramos López", "Alexis Kevin Pérez García",
+          "Jorge Lidio Barragán Villanueva", ALUMNO]
 GRUPO = "172"
 AZUL = colors.HexColor("#17365D")
 CIAN = colors.HexColor("#0D9DB2")
@@ -108,12 +110,12 @@ class Reporte(BaseDocTemplate):
         canvas.setFont(NEGRITA, 8); canvas.setFillColor(AZUL)
         canvas.drawString(2.1*cm, h-1.35*cm, "FUNDAMENTOS DE INTELIGENCIA ARTIFICIAL")
         canvas.setFont(FUENTE, 8); canvas.setFillColor(GRIS)
-        canvas.drawString(2.1*cm, 1.25*cm, f"{self.seccion}  |  Emmanuel Guzmán  |  G172")
+        canvas.drawString(2.1*cm, 1.25*cm, f"{self.seccion}  |  G172")
         canvas.drawRightString(w-2.1*cm, 1.25*cm, f"Página {doc.page}")
         canvas.restoreState()
 
 
-def portada(numero: int, tema: str, fecha: str) -> list:
+def portada(numero: int, tema: str, fecha: str, equipo: bool = False) -> list:
     return [Spacer(1, 1.4*cm), P("UNIVERSIDAD POLITÉCNICA DE ATLAUTLA", "CentroFIA"),
             P("Ingeniería en Tecnologías de la Información e Innovación Digital", "CentroFIA"),
             Spacer(1, 1.0*cm), P(f"ACTIVIDAD {numero}", "PortadaFIA"),
@@ -121,12 +123,12 @@ def portada(numero: int, tema: str, fecha: str) -> list:
             Spacer(1, 1.1*cm),
             tabla(["Datos de entrega", "Información"], [
                 ["Asignatura", "Fundamentos de Inteligencia Artificial"],
-                ["Alumno", ALUMNO], ["Grupo", GRUPO],
+                ["Integrantes" if equipo else "Alumno", " · ".join(EQUIPO) if equipo else ALUMNO], ["Grupo", GRUPO],
                 ["Docente", "Mtro. Javier García Lara"],
                 ["Fecha indicada en el enunciado", fecha + " de octubre de 2026"],
             ], [5.4*cm, 11.3*cm]),
             Spacer(1, 0.5*cm),
-            P("Portafolio individual versionado en GitHub. Se incluyen planteamiento, "
+            P(("Trabajo en equipo" if equipo else "Portafolio individual") + " versionado en GitHub. Se incluyen planteamiento, "
               "procedimiento, evidencia, conclusiones y referencias.", "PieFIA"),
             Spacer(1, 0.7*cm)]
 
@@ -135,8 +137,8 @@ def declaracion() -> list:
     return [H("Uso de inteligencia artificial y verificación"),
             P("Se utilizó ChatGPT/Codex para apoyar la organización del reporte, la redacción, "
               "el desarrollo de código y gráficos. Se ejecutaron los programas y pruebas locales, "
-              "y se cotejaron las afirmaciones de Act1 con las fuentes citadas. El estudiante debe "
-              "revisar, comprender y poder explicar esta entrega antes de presentarla.")]
+              "y se cotejaron las afirmaciones documentales con las fuentes citadas. Quienes "
+              "presentan el trabajo deben revisarlo, comprenderlo y poder explicarlo.")]
 
 
 def referencias_comunes() -> list:
@@ -385,7 +387,132 @@ def act4() -> None:
     Reporte(BASE / "Act4" / "FIA_G172_Guzman_S4.pdf", "Act4 · Sección 4").build(s)
 
 
+def act5() -> None:
+    d = leer_resultados(5)
+    dij, ast = d["resultados"]["Dijkstra"], d["resultados"]["A*"]
+    s = portada(5, "Búsqueda heurística en una red vial", "25", equipo=True)
+    s += [H("Planteamiento y datos"),
+          P("Caso académico: hallar una ruta peatonal entre dos nodos de la red vial de Atlautla, "
+            "Estado de México. Las calles y coordenadas provienen de una instantánea de "
+            "OpenStreetMap; la necesidad de viaje y sus extremos son un escenario hipotético. "
+            "No es una indicación de navegación real ni garantiza accesibilidad o seguridad."),
+          P(f"El grafo no dirigido conexo contiene {d['nodos']} intersecciones/nodos y "
+            f"{d['aristas']} segmentos. Cada arista pesa su longitud geodésica aproximada "
+            "en metros. Inicio: nodo " + d['inicio']['id'] + "; meta: nodo " + d['meta']['id'] + ". "
+            "Se eligió el inicio próximo a una coordenada de referencia del campus y la meta "
+            "como el nodo más distante en línea recta dentro del recorte."),
+          H("Formulación y método"),
+          P("Estado: nodo vial actual. Acción: avanzar a un nodo adyacente. Costo: longitud "
+            "del segmento. Objetivo: minimizar la suma de longitudes hasta la meta. "
+            "Dijkstra prioriza g(n), el costo recorrido; A* prioriza f(n)=g(n)+h(n). "
+            "Se usó h(n)=0.999·d<sub>Haversine</sub>(n,meta). El factor 0.999 compensa "
+            "el redondeo de pesos a milímetros. En cada arista, la distancia geodésica "
+            "directa no supera la longitud del tramo; con ese factor, h es consistente "
+            "y admisible en la instantánea almacenada."),
+          H("Procedimiento reproducible"),
+          P("1) Descargar la caja geográfica mediante <b>Act5/obtener_red_osm.py</b> "
+            "(la instantánea JSON ya se incluye). 2) Filtrar vías caminables y conservar "
+            "la componente conexa mayor. 3) Ejecutar ambos algoritmos con los mismos extremos. "
+            "4) Registrar ruta, distancia, estados expandidos, frontera y mediana de 50 "
+            "ejecuciones en milisegundos. 5) Comparar sobre el mismo mapa. "
+            "Ejecutar: <font name='Courier'>python Act5/act5_rutas.py</font>."),
+          tabla(["Métrica", "Dijkstra", "A*"], [
+              ["Longitud (m)", f"{dij['distancia_m']:.3f}", f"{ast['distancia_m']:.3f}"],
+              ["Nodos expandidos", str(dij['nodos_expandidos']), str(ast['nodos_expandidos'])],
+              ["Frente máximo", str(dij['max_frontera']), str(ast['max_frontera'])],
+              ["Mediana de 50 tiempos (ms)", f"{dij['tiempo_mediana_ms_50']:.4f}",
+               f"{ast['tiempo_mediana_ms_50']:.4f}"],
+          ], [7*cm, 4.8*cm, 4.8*cm]),
+          P("Ambos algoritmos obtuvieron exactamente el mismo costo en este caso. A* "
+            "expandió menos estados, pero aquí su cálculo de la heurística elevó el "
+            "tiempo mediano. Los tiempos dependen del equipo y no son una promesa de "
+            "ventaja universal."),
+          H("Mapa y tablero"), foto(BASE / "Act5" / "resultados" / "act5_rutas.png", 15*cm),
+          P("El tablero interactivo Plotly se encuentra en <b>Act5/dashboard.html</b>. "
+            "La interfaz principal del repositorio permite cambiar los extremos y repetir "
+            "la comparación en el navegador. El código Python está comentado y se anexa."),
+          foto(BASE / "Act5" / "resultados" / "act5_comparacion.png", 10*cm),
+          H("Complejidad y límites"),
+          P("Con listas de adyacencia y montículo, la cota usual de ambos métodos es "
+            "O((V+E) log V) en tiempo y O(V+E) en memoria. A* puede expandir menos "
+            "estados si la heurística es informativa, pero su costo de evaluación importa. "
+            "La red omitió restricciones de sentido y accesibilidad; se modeló como no dirigida."),
+          H("Conclusión"),
+          P("La heurística admisible mantuvo la ruta óptima y redujo expansiones en esta "
+            "instancia. Para una aplicación de transporte real harían falta velocidades, "
+            "sentidos de circulación, cierres y validación de campo."),
+          H("Referencias (APA 7.ª ed.)"),
+          P("OpenStreetMap contributors. (2026). <i>OpenStreetMap</i> [datos geográficos]. "
+            "https://www.openstreetmap.org/copyright"),
+          P("NetworkX developers. (s. f.). <i>Shortest paths</i>. "
+            "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html"),
+          P("Russell, S., &amp; Norvig, P. (2020). <i>Artificial intelligence: A modern approach</i> (4th ed.). Pearson."),
+          *declaracion(), *anexo_codigo(5, "act5_rutas.py")]
+    Reporte(BASE / "Act5" / "FIA_G172_Guzman_S5.pdf", "Act5 · Sección 5").build(s)
+
+
+def act6() -> None:
+    d = leer_resultados(6)
+    p = d["parametros"]
+    s = portada(6, "Algoritmo genético para distribución", "26", equipo=True)
+    s += [H("Caso y formulación"),
+          P("Se simula una brigada de entrega de materiales educativos en Atlautla: sale "
+            "de una base, visita ocho puntos y regresa. Las calles son datos reales de "
+            "OpenStreetMap y los puntos de entrega son hipotéticos, seleccionados con "
+            "semilla fija. No se describen entregas, clientes ni direcciones reales."),
+          P("Cada cromosoma es una permutación de los índices 1 a 8; la base ocupa "
+            "el índice 0 y se añade al inicio y final del circuito. La aptitud a minimizar "
+            "es la suma de las distancias viales mínimas entre paradas consecutivas. "
+            "La matriz se precalcula con Dijkstra sobre la red incluida en Act5."),
+          H("Implementación con DEAP"),
+          tabla(["Parámetro", "Valor"], [
+              ["Población", str(p['poblacion'])], ["Generaciones", str(p['generaciones'])],
+              ["Semilla", str(p['semilla'])], ["Selección", p['seleccion']],
+              ["Cruce", f"{p['cruce']} (p={p['prob_cruce']})"],
+              ["Mutación", f"{p['mutacion']} (p={p['prob_mutacion']}; gen={p['prob_gen_mutacion']})"],
+              ["Elitismo", str(p['elitismo'])],
+          ], [7*cm, 9.6*cm]),
+          P("Procedimiento: generar 80 permutaciones, evaluar costos, conservar dos élites, "
+            "seleccionar por torneo de tres, cruzar con operador ordenado, mutar "
+            "permutando posiciones y repetir 30 generaciones. El mejor histórico y la "
+            "media se registran desde la generación 0. El cruce conserva la validez "
+            "de las permutaciones."),
+          H("Resultados y control"),
+          tabla(["Método", "Distancia del circuito"], [
+              ["Algoritmo genético DEAP", f"{d['distancia_ga_m']:.3f} m"],
+              ["Vecino más cercano", f"{d['distancia_vecino_cercano_m']:.3f} m"],
+              ["Óptimo exacto Held-Karp", f"{d['distancia_optima_control_m']:.3f} m"],
+              ["Brecha del AG contra óptimo", f"{d['brecha_optima_pct']:.2f} %"],
+          ], [8.3*cm, 8.3*cm]),
+          P("Orden del AG: Base → " + " → ".join(map(str, d['ruta_ga'])) + " → Base. "
+            "Held-Karp se utilizó como control exacto para esta instancia pequeña, no "
+            "como componente del algoritmo genético. Una coincidencia con el óptimo en "
+            "esta semilla no garantiza que el AG lo alcance en toda instancia."),
+          foto(BASE / "Act6" / "resultados" / "act6_convergencia.png", 15*cm),
+          foto(BASE / "Act6" / "resultados" / "act6_ruta.png", 14*cm),
+          H("Reproducción y límites"),
+          P("Instalar <font name='Courier'>pip install -r requirements.txt</font> y ejecutar "
+            "<font name='Courier'>python Act6/act6_genetico.py</font> desde la raíz. "
+            "El archivo <b>Act6/resultados/act6_resultados.json</b> conserva matriz, "
+            "parámetros, ruta e historia completos. La interfaz HTML permite repetir "
+            "una simulación genética en el navegador; la implementación evaluada usa DEAP."),
+          H("Conclusión"),
+          P("La búsqueda evolutiva redujo el recorrido frente a vecino más cercano y "
+            "alcanzó el costo exacto de control en este ejemplo. Para adoptar el modelo "
+            "en una empresa o programa social se necesitarían horarios, capacidad, "
+            "costos de operación, restricciones reales y protección de datos."),
+          H("Referencias (APA 7.ª ed.)"),
+          P("Fortin, F.-A., De Rainville, F.-M., Gardner, M.-A., Parizeau, M., &amp; "
+            "Gagné, C. (2012). DEAP: Evolutionary algorithms made easy. "
+            "<i>Journal of Machine Learning Research, 13</i>, 2171–2175."),
+          P("OpenStreetMap contributors. (2026). <i>OpenStreetMap</i> [datos geográficos]. "
+            "https://www.openstreetmap.org/copyright"),
+          P("Wirsansky, E. (2020). <i>Hands-on genetic algorithms with Python</i>. Packt Publishing."),
+          *declaracion(), *anexo_codigo(6, "act6_genetico.py")]
+    Reporte(BASE / "Act6" / "FIA_G172_Guzman_S6.pdf", "Act6 · Sección 6").build(s)
+
+
 if __name__ == "__main__":
-    for funcion in (act1, act2, act3, act4):
+    for funcion in (act1, act2, act3, act4, act5, act6):
         funcion()
-    print("Se generaron cuatro reportes PDF.")
+    print("Se generaron seis reportes PDF.")

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b2c">
+  <meta name="description" content="Portafolio interactivo de seis actividades de Fundamentos de Inteligencia Artificial, grupo 172.">
+  <title>Laboratorio IA · Parcial 2</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="masthead">
+    <div class="brand"><span class="brand-mark">✳</span><span>FIA <small>/ LABORATORIO 02</small></span></div>
+    <a class="top-link" href="https://github.com/xbae23/FIA_Parcial2_Emmanuel_Guzman">Ver repositorio ↗</a>
+  </header>
+  <main id="contenido">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow">Universidad Politécnica de Atlautla · Grupo 172</p>
+        <h1>La inteligencia artificial,<br><em>puesta a prueba.</em></h1>
+        <p class="lead">Seis actividades. Seis formas de comprobar el resultado. Ejecuta los algoritmos, explora sus decisiones y abre el reporte que explica cada solución.</p>
+        <div class="hero-actions"><a class="button primary" href="#act1">Empezar recorrido <span>↗</span></a><a class="button ghost" href="#indice">Explorar actividades ↓</a></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">IA<span>06</span></div><div class="art-dot dot-a"></div><div class="art-dot dot-b"></div><div class="art-dot dot-c"></div></div>
+      <div class="hero-stats"><div><strong>06</strong><span>actividades</span></div><div><strong>04 + 02</strong><span>individuales + equipo</span></div><div><strong>100%</strong><span>pruebas visibles</span></div></div>
+    </section>
+
+    <section id="indice" class="index-section shell">
+      <div class="section-heading"><p class="eyebrow">El recorrido</p><h2>Escoge una actividad</h2><p>Los botones ejecutan una demostración local en tu navegador; los PDF documentan la implementación de referencia.</p></div>
+      <nav class="activity-grid" aria-label="Actividades">
+        <a href="#act1"><span>01 / INDIVIDUAL</span><strong>Casos de IA</strong><small>Compara aplicaciones reales →</small></a>
+        <a href="#act2"><span>02 / INDIVIDUAL</span><strong>Grafos</strong><small>Encuentra una ruta →</small></a>
+        <a href="#act3"><span>03 / INDIVIDUAL</span><strong>Búsqueda local</strong><small>Optimiza una función →</small></a>
+        <a href="#act4"><span>04 / INDIVIDUAL</span><strong>BFS y DFS</strong><small>Resuelve el laberinto →</small></a>
+        <a href="#act5"><span>05 / EQUIPO</span><strong>A* vs Dijkstra</strong><small>Explora una red vial →</small></a>
+        <a href="#act6"><span>06 / EQUIPO</span><strong>Algoritmo genético</strong><small>Diseña un circuito →</small></a>
+      </nav>
+    </section>
+
+    <section id="act1" class="activity shell" aria-labelledby="h1">
+      <div class="activity-intro"><span class="number">01</span><div><p class="eyebrow">Individual · 1.7 Aplicaciones y casos de estudio</p><h2 id="h1">La IA en el mundo real</h2><p>Selecciona un sector y examina problema, técnica, evidencia e indicador de desempeño.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="case-select">Sector</label><select id="case-select"><option value="salud">Salud</option><option value="industria">Industria</option><option value="movilidad">Movilidad</option></select><button id="case-run" class="button primary" type="button">Comparar caso →</button></div><div class="display case-display" id="case-display" aria-live="polite"></div></div>
+      <div class="activity-footer"><a href="Act1/FIA_G172_Guzman_S1.pdf">Leer reporte PDF ↗</a><a href="Act1/resultados/act1_infografia.png">Ver infografía ↗</a></div>
+    </section>
+
+    <section id="act2" class="activity shell" aria-labelledby="h2">
+      <div class="activity-intro"><span class="number">02</span><div><p class="eyebrow">Individual · 2.1 Problemas y 2.2 Espacios de búsqueda</p><h2 id="h2">Cada decisión es un nodo</h2><p>Prueba una evacuación de mínimo número de pasos o un reparto de costo mínimo. Ambos escenarios son didácticos.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="graph-select">Problema</label><select id="graph-select"><option value="evacuacion">Evacuación · BFS</option><option value="reparto">Reparto · Dijkstra</option></select><button id="graph-run" class="button primary" type="button">Encontrar ruta →</button><p class="hint">El grafo cambia al elegir el problema.</p></div><div class="display"><div id="graph-visual" class="graph-visual" role="img" aria-label="Grafo del problema"></div><div id="graph-result" class="result-strip" aria-live="polite"></div></div></div>
+      <div class="activity-footer"><a href="Act2/FIA_G172_Guzman_S2.pdf">Leer reporte PDF ↗</a><a href="Act2/act2_grafos.py">Ver código Python ↗</a></div>
+    </section>
+
+    <section id="act3" class="activity shell" aria-labelledby="h3">
+      <div class="activity-intro"><span class="number">03</span><div><p class="eyebrow">Individual · 2.3 Búsqueda local</p><h2 id="h3">Escapar de los mínimos locales</h2><p>Hill Climbing y Simulated Annealing minimizan la función Rastrigin en dos dimensiones. Cambia el inicio y compara sus trayectorias.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="start-x">Punto inicial x</label><input id="start-x" type="number" min="-5.12" max="5.12" step="0.1" value="3.8"><label for="start-y">Punto inicial y</label><input id="start-y" type="number" min="-5.12" max="5.12" step="0.1" value="3.8"><label for="sa-seed">Semilla del recocido</label><input id="sa-seed" type="number" min="0" max="999999" step="1" value="42"><button id="opt-run" class="button primary" type="button">Optimizar →</button></div><div class="display"><canvas id="opt-chart" width="900" height="330" role="img" aria-label="Gráfica de convergencia de Hill Climbing y Simulated Annealing"></canvas><div id="opt-result" class="result-strip" aria-live="polite"></div></div></div>
+      <div class="activity-footer"><a href="Act3/FIA_G172_Guzman_S3.pdf">Leer reporte PDF ↗</a><a href="Act3/act3_optimizacion.py">Ver código Python ↗</a></div>
+    </section>
+
+    <section id="act4" class="activity shell" aria-labelledby="h4">
+      <div class="activity-intro"><span class="number">04</span><div><p class="eyebrow">Individual · 2.4 Búsqueda ciega</p><h2 id="h4">Dos rutas por el laberinto</h2><p>La misma cuadrícula, dos formas de recorrerla: BFS busca menos pasos; DFS profundiza antes de retroceder.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="maze-method">Método</label><select id="maze-method"><option value="BFS">BFS · anchura</option><option value="DFS">DFS · profundidad</option></select><button id="maze-run" class="button primary" type="button">Resolver laberinto →</button><div class="legend"><span><i class="swatch start"></i>Inicio</span><span><i class="swatch goal"></i>Meta</span><span><i class="swatch route"></i>Ruta</span></div></div><div class="display"><div id="maze-grid" class="maze-grid" role="img" aria-label="Laberinto con ruta"></div><div id="maze-result" class="result-strip" aria-live="polite"></div></div></div>
+      <div class="activity-footer"><a href="Act4/FIA_G172_Guzman_S4.pdf">Leer reporte PDF ↗</a><a href="Act4/act4_laberinto.py">Ver código Python ↗</a></div>
+    </section>
+
+    <section id="act5" class="activity shell" aria-labelledby="h5">
+      <div class="activity-intro"><span class="number">05</span><div><p class="eyebrow">Equipo · 2.5 Búsqueda heurística</p><h2 id="h5">Rutas sobre calles reales</h2><p>A* y Dijkstra compiten sobre una instantánea de OpenStreetMap de Atlautla. El viaje es hipotético; el grafo vial es real.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="route-pair">Trayecto</label><select id="route-pair"><option value="original">Campus aproximado → extremo de la red</option><option value="local">Dos puntos de la zona central</option><option value="cross">Dos extremos de la red</option></select><button id="route-run" class="button primary" type="button">Comparar rutas →</button><p class="hint" id="route-status">Cargando red vial…</p><div class="legend"><span><i class="swatch road"></i>Calles</span><span><i class="swatch route"></i>Ruta óptima</span></div></div><div class="display"><canvas id="road-map" width="1000" height="570" role="img" aria-label="Mapa de la red vial y ruta"></canvas><div id="route-result" class="result-strip" aria-live="polite"></div></div></div>
+      <div class="activity-footer"><a href="Act5/FIA_G172_Guzman_S5.pdf">Leer reporte PDF ↗</a><a href="Act5/dashboard.html">Abrir dashboard Plotly ↗</a><a href="Act5/act5_rutas.py">Ver código Python ↗</a></div>
+    </section>
+
+    <section id="act6" class="activity shell" aria-labelledby="h6">
+      <div class="activity-intro"><span class="number">06</span><div><p class="eyebrow">Equipo · 2.6 Algoritmos genéticos</p><h2 id="h6">Una ruta que evoluciona</h2><p>Simula 30 generaciones para una brigada educativa hipotética con ocho entregas. La solución oficial está implementada con DEAP en Python.</p></div></div>
+      <div class="workbench"><div class="controls"><label for="ga-seed">Semilla de simulación</label><input id="ga-seed" type="number" min="0" max="999999" step="1" value="42"><button id="ga-run" class="button primary" type="button">Evolucionar 30 generaciones →</button><p class="hint" id="ga-status">Cargando matriz de distancias…</p><p class="hint">Población 80 · cruce 85% · mutación 25% · 2 élites</p></div><div class="display"><canvas id="ga-chart" width="900" height="290" role="img" aria-label="Gráfica de convergencia del algoritmo genético"></canvas><div id="ga-result" class="result-strip" aria-live="polite"></div><div id="ga-order" class="route-order"></div></div></div>
+      <div class="activity-footer"><a href="Act6/FIA_G172_Guzman_S6.pdf">Leer reporte PDF ↗</a><a href="Act6/act6_genetico.py">Ver código DEAP ↗</a><a href="Act6/resultados/act6_ruta.png">Ver mapa de circuito ↗</a></div>
+    </section>
+  </main>
+  <footer class="page-footer"><div class="shell"><span>FIA / PARCIAL 2 · 2026</span><p>Equipo Act5–6: Bryan Salvador Ramos López · Alexis Kevin Pérez García · Jorge Lidio Barragán Villanueva · Emmanuel Guzmán García.</p><p>Datos viales © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL). Escenarios de desplazamiento y entrega hipotéticos. Uso de IA y fuentes descritos en los reportes.</p></div></footer>
+</body>
+</html>
