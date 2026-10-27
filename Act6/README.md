@@ -4,7 +4,7 @@ Trabajo en equipo del grupo 172: Bryan Salvador Ramos López, Alexis Kevin Pére
 
 Caso aplicado simulado: una brigada educativa sale de una base, visita ocho puntos hipotéticos sobre la red vial de Atlautla y regresa. Un algoritmo genético en Python con DEAP optimiza la distancia total en 30 generaciones. Se comparan vecino más cercano y el óptimo exacto Held–Karp como controles; los datos de las calles provienen de OpenStreetMap, no los destinos.
 
-- [Reporte PDF](FIA_G172_Guzman_S6.pdf)
+- [Reporte PDF](FIA_G172_GUZMAN_S6.pdf)
 - [Código DEAP](act6_genetico.py)
 - [Datos y resultados](resultados/act6_resultados.json)
 - [Gráfica de convergencia](resultados/act6_convergencia.png) y [ruta](resultados/act6_ruta.png)

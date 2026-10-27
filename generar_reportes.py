@@ -23,6 +23,8 @@ ALUMNO = "Emmanuel Guzmán García"
 EQUIPO = ["Bryan Salvador Ramos López", "Alexis Kevin Pérez García",
           "Jorge Lidio Barragán Villanueva", ALUMNO]
 GRUPO = "172"
+REPO_URL = "https://github.com/xbae23/FIA_Parcial2_Emmanuel_Guzman"
+WEB_URL = "https://xbae23.github.io/FIA_Parcial2_Emmanuel_Guzman/"
 AZUL = colors.HexColor("#17365D")
 CIAN = colors.HexColor("#0D9DB2")
 GRIS = colors.HexColor("#536273")
@@ -128,6 +130,8 @@ def portada(numero: int, tema: str, fecha: str, equipo: bool = False) -> list:
                 ["Fecha indicada en el enunciado", fecha + " de octubre de 2026"],
             ], [5.4*cm, 11.3*cm]),
             Spacer(1, 0.5*cm),
+            P(f"Repositorio: <link href='{REPO_URL}' color='#0D9DB2'>{REPO_URL}</link>", "PieFIA"),
+            P(f"Demostración: <link href='{WEB_URL}' color='#0D9DB2'>{WEB_URL}</link>", "PieFIA"),
             P(("Trabajo en equipo" if equipo else "Portafolio individual") + " versionado en GitHub. Se incluyen planteamiento, "
               "procedimiento, evidencia, conclusiones y referencias.", "PieFIA"),
             Spacer(1, 0.7*cm)]
@@ -235,7 +239,7 @@ def act1() -> None:
           P("Evans, R., &amp; Gao, J. (2016). <i>DeepMind AI reduces Google data centre cooling bill by 40%</i>. Google DeepMind. https://deepmind.google/blog/deepmind-ai-reduces-google-data-centre-cooling-bill-by-40/"),
           P("Google. (s. f.). <i>Use eco-friendly routes on your Google Maps app</i>. Google Maps Help. https://support.google.com/maps/answer/11470237"),
           *declaracion()]
-    Reporte(BASE / "Act1" / "FIA_G172_Guzman_S1.pdf", "Act1 · Sección 1").build(s)
+    Reporte(BASE / "Act1" / "FIA_G172_GUZMAN_S1.pdf", "Act1 · Sección 1").build(s)
 
 
 def leer_resultados(act: int) -> dict:
@@ -288,7 +292,7 @@ def act2() -> None:
             "no negativos. Un modelo equivocado del costo puede producir una ruta "
             "matemáticamente óptima pero inútil para la operación real."),
           *referencias_comunes(), *declaracion(), *anexo_codigo(2, "act2_grafos.py")]
-    Reporte(BASE / "Act2" / "FIA_G172_Guzman_S2.pdf", "Act2 · Sección 2").build(s)
+    Reporte(BASE / "Act2" / "FIA_G172_GUZMAN_S2.pdf", "Act2 · Sección 2").build(s)
 
 
 def act3() -> None:
@@ -339,7 +343,7 @@ def act3() -> None:
           P("Russell, S., &amp; Norvig, P. (2020). <i>Artificial intelligence: A modern approach</i> (4th ed.). Pearson."),
           P("Wirsansky, E. (2020). <i>Hands-on genetic algorithms with Python</i>. Packt. [Referencia del temario; no se implementan algoritmos genéticos en esta actividad]."),
           *declaracion(), *anexo_codigo(3, "act3_optimizacion.py")]
-    Reporte(BASE / "Act3" / "FIA_G172_Guzman_S3.pdf", "Act3 · Sección 3").build(s)
+    Reporte(BASE / "Act3" / "FIA_G172_GUZMAN_S3.pdf", "Act3 · Sección 3").build(s)
 
 
 def act4() -> None:
@@ -384,7 +388,7 @@ def act4() -> None:
             "solución mínima. La selección del algoritmo debe responder a la meta "
             "real, al tamaño del espacio y al costo de las acciones."),
           *referencias_comunes(), *declaracion(), *anexo_codigo(4, "act4_laberinto.py")]
-    Reporte(BASE / "Act4" / "FIA_G172_Guzman_S4.pdf", "Act4 · Sección 4").build(s)
+    Reporte(BASE / "Act4" / "FIA_G172_GUZMAN_S4.pdf", "Act4 · Sección 4").build(s)
 
 
 def act5() -> None:
@@ -448,7 +452,7 @@ def act5() -> None:
             "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html"),
           P("Russell, S., &amp; Norvig, P. (2020). <i>Artificial intelligence: A modern approach</i> (4th ed.). Pearson."),
           *declaracion(), *anexo_codigo(5, "act5_rutas.py")]
-    Reporte(BASE / "Act5" / "FIA_G172_Guzman_S5.pdf", "Act5 · Sección 5").build(s)
+    Reporte(BASE / "Act5" / "FIA_G172_GUZMAN_S5.pdf", "Act5 · Sección 5").build(s)
 
 
 def act6() -> None:
@@ -509,7 +513,7 @@ def act6() -> None:
             "https://www.openstreetmap.org/copyright"),
           P("Wirsansky, E. (2020). <i>Hands-on genetic algorithms with Python</i>. Packt Publishing."),
           *declaracion(), *anexo_codigo(6, "act6_genetico.py")]
-    Reporte(BASE / "Act6" / "FIA_G172_Guzman_S6.pdf", "Act6 · Sección 6").build(s)
+    Reporte(BASE / "Act6" / "FIA_G172_GUZMAN_S6.pdf", "Act6 · Sección 6").build(s)
 
 
 if __name__ == "__main__":

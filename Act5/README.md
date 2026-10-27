@@ -4,7 +4,7 @@ Trabajo en equipo del grupo 172: Bryan Salvador Ramos López, Alexis Kevin Pére
 
 Se modela una ruta peatonal hipotética sobre una instantánea de calles reales de Atlautla, México, tomada de OpenStreetMap. Se compara A* con Dijkstra en distancia, nodos expandidos, tamaño de frontera y tiempo. La heurística `0.999 × distancia Haversine` es una cota conservadora debido al redondeo de las aristas. No es una herramienta de navegación real.
 
-- [Reporte PDF](FIA_G172_Guzman_S5.pdf)
+- [Reporte PDF](FIA_G172_GUZMAN_S5.pdf)
 - [Código principal](act5_rutas.py) y [descarga/reconstrucción de la red](obtener_red_osm.py)
 - [Red incluida](datos/red_atlautla.json), [resultados JSON](resultados/act5_resultados.json) y [dashboard Plotly](dashboard.html)
 - [Mapa de rutas](resultados/act5_rutas.png) y [comparación](resultados/act5_comparacion.png)

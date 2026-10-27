@@ -19,8 +19,15 @@ const graphSpecs={
 };
 function searchSmall(spec){
  const adj=Object.fromEntries(spec.nodes.map(n=>[n,[]]));for(const [a,b,w] of spec.edges){adj[a].push([b,w]);adj[b].push([a,w]);}
- const dist={[spec.start]:0},parent={[spec.start]:null},closed=new Set();let frontier=[[0,spec.start]];
- while(frontier.length){frontier.sort((a,b)=>a[0]-b[0]||a[1].localeCompare(b[1]));const [d,u]=frontier.shift();if(closed.has(u))continue;closed.add(u);if(u===spec.goal){const path=[];for(let n=u;n!==null;n=parent[n])path.push(n);return {path:path.reverse(),cost:d,expanded:closed.size};}for(const [v,w] of adj[u].sort((a,b)=>a[0].localeCompare(b[0]))){const next=d+(spec.method==='BFS'?1:w);if(!closed.has(v)&&next<(dist[v]??Infinity)){dist[v]=next;parent[v]=u;frontier.push([next,v]);}}}return {path:[],cost:Infinity,expanded:closed.size};
+ const compare=(a,b)=>a<b?-1:a>b?1:0;
+ const dist={[spec.start]:0},parent={[spec.start]:null},closed=new Set(),frontier=[[0,spec.start]];
+ while(frontier.length){
+  if(spec.method==='Dijkstra')frontier.sort((a,b)=>a[0]-b[0]||compare(a[1],b[1]));
+  const [d,u]=frontier.shift();if(closed.has(u))continue;closed.add(u);
+  if(u===spec.goal){const path=[];for(let n=u;n!==null;n=parent[n])path.push(n);return {path:path.reverse(),cost:d,expanded:closed.size};}
+  for(const [v,w] of adj[u].sort((a,b)=>compare(a[0],b[0]))){const next=d+(spec.method==='BFS'?1:w);if(!closed.has(v)&&next<(dist[v]??Infinity)){dist[v]=next;parent[v]=u;frontier.push([next,v]);}}
+ }
+ return {path:[],cost:Infinity,expanded:closed.size};
 }
 function showGraph(run=false){const spec=graphSpecs[$('graph-select').value],res=run?searchSmall(spec):null,edges=new Set(res?res.path.slice(1).map((n,i)=>[res.path[i],n].sort().join('|')):[]);
  let svg='<svg viewBox="0 0 730 290" aria-hidden="true">';for(const [a,b,w] of spec.edges){const [x1,y1]=spec.pos[a],[x2,y2]=spec.pos[b],active=edges.has([a,b].sort().join('|'));svg+=`<line class="graph-edge ${active?'active':''}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;if(spec.method==='Dijkstra')svg+=`<text class="graph-weight" x="${(x1+x2)/2}" y="${(y1+y2)/2-8}">${w}</text>`;}for(const n of spec.nodes){const [x,y]=spec.pos[n];svg+=`<circle class="graph-node ${res?.path.includes(n)?'active':''}" cx="${x}" cy="${y}" r="${n.length>10?37:30}"/><text class="graph-label" x="${x}" y="${y}">${esc(n)}</text>`;}svg+='</svg>';$('graph-visual').innerHTML=svg;$('graph-result').innerHTML=res?`<strong>${esc(res.path.join(' → '))}</strong><span>${spec.method==='BFS'?'Pasos':'Costo'}: ${fmt(res.cost,0)}</span><span>Nodos expandidos: ${res.expanded}</span>`:'<span>Presiona «Encontrar ruta» para resaltar la solución.</span>';
